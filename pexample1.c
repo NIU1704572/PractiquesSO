@@ -46,14 +46,18 @@ int main(int argc,char** argv) {
   int status;
   int pid;
   // Create a process (fork)
-  if ((pid=fork())==0) {
+  for (int i=0; i<50; i++) {
     // Child process
-    printf("[%s] Child process  (PID=%d)\n",timestamp(),getpid());
-    exit(0); // Terminate OK
-  } else {
+    if ((pid=fork())==0) {
+	    printf("[%s] Child process %d  (PID=%d)\n",timestamp(), (i+1), getpid());
+	    exit(0); // Terminate OK
+  	} 
+  }
+  for (int i=0; i<50; i++){
+  	wait(&status);
+  }
     // Father process
     printf("[%s] Father process (PID=%d)\n",timestamp(),getpid());
-    wait(&status); // Wait for child to finish
-  }
+  
   return 0; // Return OK
 }
