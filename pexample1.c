@@ -42,19 +42,22 @@ char* timestamp() {
   // Return timestamp
   return timestamp_buffer;
 }
+
 int main(int argc,char** argv) {
   int status;
   int pid;
-  // Create a process (fork)
-  for (int i=0; i<50; i++) {
-    // Child process
-    if ((pid=fork())==0) {
-	    printf("[%s] Child process %d  (PID=%d)\n",timestamp(), (i+1), getpid());
-	    exit(0); // Terminate OK
+  
+  for (inst i=0; i<50; i++) { //for loop that loops 50 times
+    if ((pid=fork())==0) { //create child process S
+    ss
+	    printf("[%s] Child process %d  (PID=%d)\n",timestamp(), (i+1), getpid()); 
+	    		//show timestamp, which child process they are, and pid
+	    		
+	    exit(0); // Terminate child
   	} 
   }
-  for (int i=0; i<50; i++){
-  	wait(&status);
+  for (int i=0; i<50; i++){//for loop that loops 50 timesS
+  	wait(&status); //wait for children
   }
     // Father process
     printf("[%s] Father process (PID=%d)\n",timestamp(),getpid());

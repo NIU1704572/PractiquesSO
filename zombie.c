@@ -18,6 +18,7 @@ int main (int argc, char** argv) {
     if (pid == 0) {
         // Child process exits very fast
         sleep(1);
+        
         exit(0);
     } else {
         printf("Initial child status:\n");
@@ -29,13 +30,13 @@ int main (int argc, char** argv) {
         // Check the dead child status
         printf("Dead child status:\n");
 
-        // YOUR CODE HERE
+        print_child_status(pid);
 
         // Send a SIGKILL signal to the child process, this is done using the
         // `kill` syscall, you can see the manual here: https://man7.org/linux/man-pages/man2/kill.2.html
 
         // YOUR CODE HERE
-
+	kill(pid, SIGKILL);
         // Give some time to the child zombie process to react
         sleep(3);
 
@@ -43,7 +44,7 @@ int main (int argc, char** argv) {
         printf("Dead child status after SIGKILL:\n");
 
         // YOUR CODE HERE
-
+	print_child_status(pid);
         // Wait for the zombie process
         wait(&status);
 
@@ -52,7 +53,7 @@ int main (int argc, char** argv) {
         printf("Dead child status after wait:\n");
 
         // YOUR CODE HERE
-
+	print_child_status(pid);
     }
     return 0;
 }

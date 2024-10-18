@@ -18,15 +18,16 @@ void parse_command (char* cmd_line, char **cmd_argv) {
 }
 
 void execute_command (char* command, char **cmd_argv) {
-	// This function must:
-	// 1. Create a child process
-	// 2. The child process should be converted to the cmd_line process (using cmd_argv arguments)
-	// 3. The parent process must wait for the child process to finish
-
-	// !! YOUR CODE HERE !!
+	int pid, status;
+	if ((pid=fork())==0)
+	{
+		execvp(command, cmd_argv);
+		exit(0);
+	}
+	wait(&status);
 }
 
-int main (int argc, char** argv) {
+int main (int argc, char** argv) {SS
     char cmd_line[INPUT_SIZE];
     char pwd[INPUT_SIZE];
     char *cmd_argv[32];

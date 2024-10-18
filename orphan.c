@@ -16,8 +16,9 @@ int main (int argc, char** argv) {
         //
         // You should print the PID of the new parent (check the getppid()
         // function), and explain why the new parent process is special.
-
+	
         // ADD YOUR CODE HERE
+        printf("I am an orphan, but %d is my new dad", getppid());
 
     } else {
         // Parent process exists very fast, leaving its child orphan :(
