@@ -17,17 +17,16 @@
  * PROJECT: Operating Systems. Practical examples
  * AUTHOR(S): Santiago Marco-Sola <santiago.marco@uab.cat>
  * DESCRIPTION:
- *   This example shows how to create a Linux process using fork(),
- *   how to print detailed timestamps, and the usage of the wait
- *   and exit system calls.
+ *   This example shows how to create, join, and exit threads
+ *   using POSIX threads library.
  */
 
 #include <stdio.h>    // Standard I/O
+#include <stdlib.h>   // Standard library
 #include <unistd.h>   // Unix Standard
-#include <sys/wait.h> // System Wait
+#include <pthread.h>  // POSIX thread library
 #include <sys/time.h> // Time
 #include <time.h>     // Time
-#include <stdlib.h>   // Standard library
 #include <string.h>   // String library
 
 char* timestamp() {
@@ -42,25 +41,28 @@ char* timestamp() {
   // Return timestamp
   return timestamp_buffer;
 }
-
-int main(int argc,char** argv) {
-  int status;
-  int pid;
-  
-  for (inst i=0; i<50; i++) { //for loop that loops 50 times
-    if ((pid=fork())==0) { //create child process S
-    ss
-	    printf("[%s] Child process %d  (PID=%d)\n",timestamp(), (i+1), getpid()); 
-	    		//show timestamp, which child process they are, and pid
-	    		
-	    exit(0); // Terminate child
-  	} 
-  }
-  for (int i=0; i<50; i++){//for loop that loops 50 timesS
-  	wait(&status); //wait for children
-  }
-    // Father process
-    printf("[%s] Father process (PID=%d)\n",timestamp(),getpid());
-  
-  return 0; // Return OK
+void* pthread_function(int id) {
+  printf("[%s] Slave thread %d (PID=%d,TID=%ld)\n",timestamp(),id,getpid(),pthread_self());
+  pthread_exit(NULL);
 }
+int main(int argc,char** argv) {
+  // Create slave thread
+  long int i = 1;
+  pthread_t thread[50];
+  for (i=0; i<50;i++)
+  {
+  	pthread_create(&thread[i],NULL,(void* (*)(void*))pthread_function,(void*)(i+1));
+  }
+  // Print message
+  printf("[%s] Master thread (PID=%d,TID=%ld)\n",timestamp(),getpid(),pthread_self());
+  // Wait for threads
+  for (i=0; i<50;i++)
+  {
+  	 pthread_join(thread[i],NULL);
+  }
+ 
+  // Terminate process OK
+  return 0;
+}
+
+

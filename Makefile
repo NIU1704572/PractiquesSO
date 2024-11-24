@@ -4,16 +4,16 @@
 CC=gcc
 FLAGS=-Wall -g
 
-PROCESS_EXAMPLES=pexample1 pexample2 pexample3 zombie orphan mini-shell
+THEADS_EXAMPLES+=texample1 texample2 texample3 texample4
 
-SRCS=$(addsuffix .c, $(PROCESS_EXAMPLES))
+SRCS=$(addsuffix .c, $(THEADS_EXAMPLES))
 
-all: $(PROCESS_EXAMPLES)
+all: $(THEADS_EXAMPLES)
 
 # General building rule
-$(PROCESS_EXAMPLES): $(SRCS)
-	gcc $(FLAGS) $@.c -o $@
+$(THEADS_EXAMPLES): $(SRCS)
+	gcc $(FLAGS) $@.c -o $@ -lpthread
 
 clean:
-	@rm -rf $(PROCESS_EXAMPLES)
+	@rm -rf $(THEADS_EXAMPLES)
 
